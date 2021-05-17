@@ -8,7 +8,7 @@ dotenv.config();
 const { DB_URI, DB_NAME, JWT_SECRET } = process.env;
 
 const getToken = (user) =>
-  jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "30 days" });
+  jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "100 days" });
 
 const getUserFromToken = async (token, db) => {
   if (!token) {
@@ -43,7 +43,7 @@ const typeDefs = gql`
   input SignUpInput {
     email: String!
     password: String!
-    name: String!
+    name: String
     avatar: String
   }
 
@@ -114,7 +114,7 @@ const resolvers = {
       };
 
       // save to database
-      const result = await db.collection("Users").insert(newUser);
+      const result = await db.collection("Users").insertOne(newUser);
       const user = result.ops[0];
       return {
         user,
@@ -301,6 +301,7 @@ const start = async () => {
     resolvers,
     context: async ({ req }) => {
       const user = await getUserFromToken(req.headers.authorization, db);
+      //console.log(req);
       return {
         db,
         user,

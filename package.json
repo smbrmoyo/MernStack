@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "apollo-server": "^2.22.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
